@@ -1,6 +1,11 @@
 package seguranca.teste.security.domain;
 
+import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,10 +18,12 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_tweets")
-public class Tweet {
+public class Tweet implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "tweet_id")
 	private Long tweetId;
 	
@@ -28,14 +35,14 @@ public class Tweet {
 	private String contexto;
 	
 	@CreationTimestamp
-	@Column(name = "creation_timestamp")
-	private Instant creationTimestamp;
+    @Column(name = "creation_timestamp", columnDefinition = "TIMESTAMP")
+    private LocalDateTime creationTimestamp;
 
 	public Tweet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	public Long getTweetId() {
 		return tweetId;
 	}
@@ -60,12 +67,12 @@ public class Tweet {
 		this.contexto = contexto;
 	}
 
-	public Instant getCreationTimestamp() {
+	public LocalDateTime getCreationTimestamp() {
 		return creationTimestamp;
 	}
 
-	public void setCreationTimestamp(Instant creationTimestamp) {
+	public void setCreationTimestamp(LocalDateTime creationTimestamp) {
 		this.creationTimestamp = creationTimestamp;
-	}	
-	
+	}
+
 }

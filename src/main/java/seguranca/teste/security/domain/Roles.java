@@ -1,57 +1,78 @@
 package seguranca.teste.security.domain;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_roles")
-public class Roles {
+@JsonIgnoreProperties({"usuarios"})
+public class Roles implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "role_id")
-	private Long id;
-	
-	@Column(name = "name")
-	private String nome;
+    private static final long serialVersionUID = 1L;
 
-	public Roles() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "role_id")
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    @Column(name = "name")
+    private String nome;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    private Set<Usuario> usuarios;
 
-	public String getNome() {
-		return nome;
-	}
+    public Roles() {
+        super();
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	public enum Values{
-		BASIC(1L),
-		ADMIN(2L);
-		
-		long roleId;
+    public Long getId() {
+        return id;
+    }
 
-		Values(long roleId) {
-			this.roleId = roleId;
-		}
-	}
-	
-	public long getRoleId() {
-		return getRoleId();
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public enum Values {
+        BASIC(1L),
+        ADMIN(2L);
+
+        long roleId;
+
+        Values(long roleId) {
+            this.roleId = roleId;
+        }
+
+        public long getRoleId() {
+            return roleId;
+        }
+    }
 }
